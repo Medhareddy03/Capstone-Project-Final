@@ -33,11 +33,11 @@ app.add_middleware(
 )
 
 
-# ─ Shared HTTP client (connection-pooled, reused across requests) ─
+# ── Shared HTTP client (connection-pooled, reused across requests) ──
 _http = httpx.AsyncClient(timeout=120)
 
 
-# ─ Models─
+# ─── Models ──────────────────────────────────────────────────────────────────
 
 
 class AnalyzeRequest(BaseModel):
@@ -45,7 +45,7 @@ class AnalyzeRequest(BaseModel):
     prompt: str
 
 
-#─ Groq helper ─
+# ─── Groq helper ─────────────────────────────────────────────────────────────
 
 
 async def _call_groq(image_b64: str, prompt: str) -> str:
@@ -83,7 +83,7 @@ async def _call_groq(image_b64: str, prompt: str) -> str:
     return content
 
 
-# ─ Moondream helper (legacy fallback) ─
+# ─── Moondream helper (legacy fallback) ───────────────────────────────────────
 
 
 async def _call_moondream(image_b64: str, question: str) -> str:
@@ -108,7 +108,7 @@ async def _call_moondream(image_b64: str, question: str) -> str:
     return answer
 
 
-# ─ Claude helper─
+# ─── Claude helper ────────────────────────────────────────────────────────────
 
 
 async def _call_claude(image_b64: str, prompt: str) -> str:
@@ -150,7 +150,7 @@ async def _call_claude(image_b64: str, prompt: str) -> str:
     )
 
 
-# ─ Unified analyze endpoint ─
+# ─── Unified analyze endpoint ─────────────────────────────────────────────────
 
 
 @app.post("/v1/analyze")
@@ -197,7 +197,7 @@ async def analyze(req: AnalyzeRequest):
         raise HTTPException(status_code=502, detail=" | ".join(errors))
 
 
-# ─ Health ─
+# ─── Health ───────────────────────────────────────────────────────────────────
 
 
 @app.get("/health")
@@ -219,14 +219,14 @@ async def health():
     }
 
 
-# ─ Frontend static files ─
+# ─── Frontend static files ────────────────────────────────────────────────────
 # Mounted last so API routes above always take precedence.
 # html=True serves index.html for "/" and any unmatched path (SPA fallback).
 _FRONTEND = Path(__file__).parent.parent / "frontend"
 app.mount("/", StaticFiles(directory=_FRONTEND, html=True), name="frontend")
 
 
-# ─ Frontend index ─
+# ─── Frontend index ───────────────────────────────────────────────────────────
 
 
 @app.get("/")
