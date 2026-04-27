@@ -1,0 +1,7 @@
+.vscode
+data
+.env
+.env.*
+backend/.env.example
+**/__pycache__/**
+**/.venv/**
