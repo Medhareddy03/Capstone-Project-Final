@@ -5,3 +5,4 @@ data
 backend/.env.example
 **/__pycache__/**
 **/.venv/**
+.DS_Store
